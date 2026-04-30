@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WITHYU</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="text-center py-6 text-xl sm:text-2xl md:text-4xl font-bold border-b border-gray-700 tracking-tight">好きな人
+  </header>
+  <audio id="backsound" loop>
+  <source src="musik.mp3">
+  Browser kamu tidak mendukung audio.
+</audio>
+
+  <button id="toggleMusic" class="fixed bottom-20 right-5 z-50 bg-gray-800 p-3 rounded-full border border-gray-600">
+  <span id="musicIcon">🔇</span>
+</button>
+
+
+  <!-- Gallery -->
+  <main class="flex-1 p-4 min-h-screen">
+    <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4"></div>
+  </main>
+
+  <!-- Footer -->
+ <footer class="text-center py-6 text-[10px] sm:text-sm border-t border-gray-800 text-gray-500 uppercase tracking-widest">
+  © <span id="years"></span> My Gallery • Made with <a href="https://www.instagram.com/riki.ocs6?igsh=cWJicjExeW1pODM=">Kyyy</a>
+</footer>
+
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+const yearElement = document.getElementById("years");
+const musicBtn = document.getElementById("toggleMusic");
+const musicIcon = document.getElementById("musicIcon");
+const audio = document.getElementById("backsound"); // Pindahkan ke atas
+
+// 1. Setup Tahun di Footer
+yearElement.textContent = new Date().getFullYear();
+
+// 2. Kontrol Musik (Volume & Toggle)
+audio.volume = 0.5; 
+
+musicBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    musicIcon.innerText = "🔊";
+  } else {
+    audio.pause();
+    musicIcon.innerText = "🔇";
+  }
+});
+
+// 3. Fungsi Autoplay Musik
+function playMusic() {
+  audio.play().then(() => {
+    musicIcon.innerText = "🔊"; // Ikon ikut berubah saat autoplay berhasil
+  }).catch(error => {
+    console.log("Autoplay ditahan browser");
+  });
+}
+
+document.addEventListener('click', playMusic, { once: true });
+document.addEventListener('scroll', playMusic, { once: true });
+document.addEventListener('touchstart', playMusic, { once: true });
+
+// 4. Loading Gambar Gallery
+let i = 1;
+function loadImage() {
+  const img = new Image();
+  img.src = `/gambar/${i}.jpg`;
+
+  img.onload = () => {
+    // Agar rapi gunakan aspect-square (pilihan)
+    img.className = "rounded-xl w-full aspect-square object-cover shadow-lg"; 
+    img.setAttribute("data-aos", "fade-up");
+    img.setAttribute("data-aos-delay", (i % 5) * 100);
+    img.setAttribute("loading", "lazy");
+
+    gallery.appendChild(img);
+    i++;
+    loadImage();
+  };
+
+  img.onerror = () => {
+    AOS.init({ duration: 800, once: true });
+  };
+}
+
+loadImage();
+
+  </script>
+
+</body>
+</html>
