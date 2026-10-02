@@ -7,7 +7,15 @@
 
   <!-- Tailwind -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<script src="sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .biru{
+      color:#3498db;
+    }
+    .merah{
+      color:#e74c3c;
+    }
+  </style>
   <!-- AOS -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
@@ -42,8 +50,26 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <script>
-    Swal.fire("Panjang umur dan sehat selalu ceweeekuuu, makasih yaw udh sabar sama aku, sama kerandoman akuuu intinya love you forever maap belum bisa ketemu belum bisa ngasih hadiah buat kamuu")
-    
+     Swal.fire({
+      title: 'Ciee yg ultah',
+      text: 'panjang umur sehat selalu sayaang cintakuuu, di umur yg 22 inii nurut ya cintakuu sama bunda ayah. semoga rejeki mu di lancarkan sayaaang',
+      confirmButtonText: 'Lanjut',
+      customClass:{
+        title:'biru'
+      }
+    }).then((result) => {
+      // Muncul setelah alert pertama di-klik / ditutup
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Love you',
+          text: 'Makasih ya sayaaang udh sabar samaa akuu, walaupun aku banyak ngeselinnya tapi aku tetep love youu',
+          confirmButtonText: 'OK',
+          customClass:{
+            title:"merah"
+          }
+        });
+      }
+    });
     const gallery = document.getElementById("gallery");
 const yearElement = document.getElementById("years");
 const musicBtn = document.getElementById("toggleMusic");
